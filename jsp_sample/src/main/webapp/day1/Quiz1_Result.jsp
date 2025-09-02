@@ -16,7 +16,7 @@
 	    	String pwd = request.getParameter("pwd");
 	    	
 	    	if(userId.equals("test") && pwd.equals("1234")){
-	    		//out.println("<div style='color:blue;'>로그인 성공</div>");	 
+	    		/*out.println("<div style='color:blue;'>로그인 성공</div>");*/	 
 	    		response.sendRedirect("Main.jsp");
 	    	} else{
 	    		out.println("<div style='color:red;'>로그인 실패</div>");	    		
