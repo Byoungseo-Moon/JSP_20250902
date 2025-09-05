@@ -39,7 +39,7 @@
 	
 	.page .active{
 		font-weight: bold;
-		font-size:30px;
+		/* font-size:5px; */
 	}
 	
 </style>
@@ -49,8 +49,12 @@
   <%@ include file="../db/db.jsp" %>
 
   <div id="container">
-  	<div id="search">
-  		검색어 : <input type="text" id="keyword">
+  	<%
+  	String keyword = request.getParameter("keyword");
+  	%>
+  
+  	<div id="search" >
+  		검색어 : <input type="text" id="keyword" value="<%= keyword !=null ? keyword : "" %>" >  		
   		<button onclick="fnSearch()">검색</button>
   	</div>
   	
@@ -96,7 +100,8 @@
  	
 	<%
 		ResultSet rs = null;
-		String keyword = request.getParameter("keyword");
+		/* String keyword = request.getParameter("keyword"); */
+		out.println(keyword);
 				
 		String keywordQuery = "";
 		if(keyword != null){
@@ -125,7 +130,7 @@
 		int offset = (currentPage - 1) * pageSize;
 		
 		
-		String cntQuery = "SELECT COUNT(*) TOTAL FROM TBL_BOARD";
+		String cntQuery = "SELECT COUNT(*) TOTAL FROM TBL_BOARD " + keywordQuery;
 		ResultSet rsCnt = stmt.executeQuery(cntQuery);
 		
 		rsCnt.next();
@@ -164,7 +169,6 @@
 		}
 		
 	%>
-
 		
   	</table>
   	
@@ -173,14 +177,12 @@
 	  		if(!(total < pageSize)){
 		  		for(int i=1; i<=pageList; i++){
 		  			if(i == currentPage){
-		  				out.println("<a href='?page=" + i + "&size=" + pageSize + " class='active'>" + i + "</a>");
+		  				out.println("<a href='?page=" + i + "&size=" + pageSize + "&keyword=" + keyword + "' class='active'>" + i + "</a>");
 		  			} else {
-		  				out.println("<a href='?page=" + i + "&size=" + pageSize + "'>" + i + "</a>");
+		  				out.println("<a href='?page=" + i + "&size=" + pageSize + "&keyword=" + keyword + "'>" + i + "</a>");
 		  			}
 		  		}
-	  		} else {
-	  			out.println("1");	  			
-	  		}
+	  		} 
 	  	
 	  	%>
   	</div>
@@ -195,24 +197,41 @@
 	
 	</div>
 	
+	<input id="pageSize" value="<%= pageSize %>" hidden>
+		
 
 </body>
 </html>
 
 <script>
+
+	let size = document.querySelector("#pageSize").value;	
+	let selectList = document.querySelector("#number");
+	
+	for(let i=0; i<selectList.length; i++){
+		if(selectList[i].value == size ){
+			selectList[i].selected = true;
+		}		
+	}		
+
+	
 	function fnBoard(boardNo){
 		location.href = "Board-View.jsp?boardNo=" + boardNo;
 	}
 	
+	
 	function fnSearch(){
 		let keyword = document.querySelector("#keyword").value;
-		location.href = "Board-List.jsp?keyword=" + keyword;
+		location.href = "Board-List.jsp?keyword=" + keyword
+						+ "&size=" + size ;		
 	}
+	
 	
 	function fnList(column, orderKind){
 		location.href="?column=" + column  //자신페이지로 가는 경우 파일이름 생략 가능 
 	                  + "&orderKind=" + orderKind; 
 	}
+	
 	
 	function fnNumber(number){
 		location.href="?size=" + number;
