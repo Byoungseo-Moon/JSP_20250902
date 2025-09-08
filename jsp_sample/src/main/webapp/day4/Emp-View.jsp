@@ -39,11 +39,13 @@
 		
 		String query = "SELECT E.EMPNO, E.ENAME, E2.ENAME AS MGR_NAME, E.SAL, AVG_SAL, D.DNAME "
 					 + "FROM EMP E "
-					 + "INNER JOIN EMP E2 ON E.MGR = E2.EMPNO "
+					 + "LEFT JOIN EMP E2 ON E.MGR = E2.EMPNO "
 					 + "INNER JOIN DEPT D ON E.DEPTNO = D.DEPTNO "
 					 + "INNER JOIN (SELECT DEPTNO, AVG(SAL) AVG_SAL FROM EMP GROUP BY DEPTNO) T "
 					 + "ON E.DEPTNO = T.DEPTNO "
 					 + "WHERE E.EMPNO = '" + empNo + "'";
+		
+		out.println(query);
 				
 		try{
 			ResultSet rs = stmt.executeQuery(query);
@@ -66,8 +68,31 @@
 			}
 	%>		 
  
+ 	<div>
+ 		<input type="button" value="삭제" onclick="fnRemove">
+ 	</div>
+ 
+ 	<input id="empNo" value="<%= empNo %>" hidden>
 		
 	</div>		
 
 </body>
 </html>
+
+<script>
+
+	 function fnRemove(){
+		 if(!confirm("정말 삭제하실겁니까?")){
+			 return;
+		 }
+		 
+		 let empNo = document.querySelector("#empNo").value;
+		 location.href="Emp-Remove.jsp?empNO=" + empNo;
+		 
+		 
+		 
+	 }
+
+
+
+</script>

@@ -66,7 +66,7 @@
 	%>
 			<tr <%= grade >=4 ? "class='grade'" : "" %>>
 				<td><%= rs.getString("EMPNO") %></td>
-				<td><a href="Emp-View.jsp?empNo=<%=rs.getString("EMPNO")%>" ><%= rs.getString("ENAME") %></a></td>
+				<td><a href="Emp-View.jsp?empNo=<%=rs.getString("EMPNO")%>"><%= rs.getString("ENAME") %></a></td>
 				<td><%= rs.getString("JOB") %></td>
 				<td><%= rs.getString("SAL") %></td>
 				<td><%= rs.getString("DNAME") %></td>
