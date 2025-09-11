@@ -63,7 +63,7 @@
 			<tr>
 				<td> <%= rs.getString("STU_NO") %> </td>
 				<td>
-					<a href="javascript:;" onclick="fnBoard(<%= rs.getString("STU_NO") %>)"> <%= rs.getString("STU_NAME") %></a>
+					<a href="javascript:;" onclick="fnList(<%= rs.getString("STU_NO") %>)"> <%= rs.getString("STU_NAME") %></a>
 				</td>
 				<td> <%= rs.getString("STU_DEPT") %> </td>
 				<td> <%= rs.getString("STU_HEIGHT") %> </td>
@@ -83,8 +83,8 @@
 
 <script>
 
-	function fnBoard(boardNo){
-		location.href = "Board-View.jsp?boardNo=" + boardNo;
+	function fnList(stuNo){
+		location.href = "Stu-View.jsp?stuNo=" + stuNo;
 	}
 
 	function fnSearch(){
